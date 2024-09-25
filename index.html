@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Hangman Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Title at the top -->
+    <h1>Hangman Game</h1>
+
+    <div id="welcome-container">
+        <h2>Welcome!</h2>
+        <br />
+        <button id="start-game">Play</button>
+    </div>
+
+    <!-- Main container for the image and canvas side by side -->
+    <div id="game-container"> 
+        <!-- Vocabulary image container on the left -->
+        <div id="vocabulary-image-container"> 
+            <img id="vocabulary-image" src="" alt="Vocabulary Image" style="display: none;"> 
+        </div>
+
+        <!-- Canvas container for the hangman drawing on the right -->
+        <div id="canvas-container">
+            <canvas id="hangmanCanvas" width="200" height="350"></canvas>
+        </div>
+    </div>
+
+    <!-- Container for the bottom elements -->
+    <div id="bottom-container">
+        <div id="word">_ _ _ _ _</div> <!-- Hidden word display -->
+        <div id="message"></div> <!-- Game message -->
+        <button id="next">Next</button> <!-- Next button -->
+    </div>
+
+    <!-- Container for the keyboard -->
+    <div id="letters-container">
+        <div id="letters"></div> <!-- Letter buttons will be added here by JavaScript -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
