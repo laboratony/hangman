@@ -154,7 +154,7 @@ const wrongSound = new Audio('sounds/wrong.mp3');
 // New: Load the background music and set it to loop
 const backgroundMusic = new Audio('sounds/About That Oldie.mp3');
 backgroundMusic.loop = true; // Make sure the music loops continuously
-backgroundMusic.volume = 0.3;
+backgroundMusic.volume = 0;
 
 // New: Load the click sound for the keyboard letters
 const clickSound = new Audio('sounds/click.wav');
