@@ -147,7 +147,19 @@ function drawHangman(attempt) {
     }
 }
 
-// Start the game
+// Load the sound files
+const correctSound = new Audio('sounds/correct.mp3');
+const wrongSound = new Audio('sounds/wrong.mp3');
+
+// New: Load the background music and set it to loop
+const backgroundMusic = new Audio('sounds/About That Oldie.mp3');
+backgroundMusic.loop = true; // Make sure the music loops continuously
+backgroundMusic.volume = 0.3;
+
+// New: Load the click sound for the keyboard letters
+const clickSound = new Audio('sounds/click.wav');
+
+// Function to start the game
 function startGame() {
     // Check if all words have been displayed
     if (currentWordIndex >= shuffledVocabularyList.length) {
@@ -177,18 +189,25 @@ function startGame() {
         const letterButton = document.createElement('button');
         letterButton.textContent = String.fromCharCode(i);
         letterButton.classList.add('letter-btn');
-        letterButton.addEventListener('click', handleGuess);
+
+        // New: Add event listener to play the click sound
+        letterButton.addEventListener('click', function(event) {
+            clickSound.play();
+            handleGuess(event);
+        });
+
         lettersElement.appendChild(letterButton);
     }
 
     // Display the corresponding vocabulary image
     vocabularyImageElement.src = chosenItem.image;
     vocabularyImageElement.style.display = 'block';
-}
 
-// Load the sound files
-const correctSound = new Audio('sounds/correct.mp3');
-const wrongSound = new Audio('sounds/wrong.mp3');
+    // New: Start playing the background music if not already playing
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.error("Error playing background music:", error));
+    }
+}
 
 // Handle guessing
 function handleGuess(event) {
@@ -256,7 +275,8 @@ function showFinalScore() {
     endContainer.style.textAlign = 'center';
     endContainer.innerHTML = `
         <h2>Game Over!</h2>
-        <p>Your final score is: ${correctGuesses} out of 12</p>
+        <p>Your score</p>
+        <h1>${correctGuesses} / ${vocabularyList.length}</h1>
         <button id="play-again">Play Again</button>
     `;
     document.body.appendChild(endContainer);
@@ -267,7 +287,7 @@ function showFinalScore() {
     });
 }
 
-// Reset the game to start over
+// Function to reset the game
 function resetGame() {
     document.getElementById('end-container').remove();
     currentWordIndex = 0;
@@ -279,13 +299,11 @@ function resetGame() {
     document.getElementById('game-container').style.display = 'none';
     document.getElementById('bottom-container').style.display = 'none';
     document.getElementById('letters-container').style.display = 'none';
-}
 
-// Event listener to restart the game
-nextButton.addEventListener('click', function() {
-    currentWordIndex++;
-    startGame();
-});
+    // Stop the background music when the game is reset
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0; // Reset to the beginning of the track
+}
 
 // Start the game initially
 document.getElementById('start-game').addEventListener('click', function() {
@@ -293,5 +311,11 @@ document.getElementById('start-game').addEventListener('click', function() {
     document.getElementById('game-container').style.display = 'flex'; 
     document.getElementById('bottom-container').style.display = 'flex'; // Display the bottom container when the game starts
     document.getElementById('letters-container').style.display = 'flex';
+    startGame();
+});
+
+// Event listener to restart the game
+nextButton.addEventListener('click', function() {
+    currentWordIndex++;
     startGame();
 });
