@@ -151,12 +151,7 @@ function drawHangman(attempt) {
 const correctSound = new Audio('sounds/correct.mp3');
 const wrongSound = new Audio('sounds/wrong.mp3');
 
-// New: Load the background music and set it to loop
-const backgroundMusic = new Audio('sounds/About That Oldie.mp3');
-backgroundMusic.loop = true; // Make sure the music loops continuously
-backgroundMusic.volume = 0;
-
-// New: Load the click sound for the keyboard letters
+// Load the click sound for the keyboard letters
 const clickSound = new Audio('sounds/click.wav');
 
 // Function to start the game
@@ -190,7 +185,7 @@ function startGame() {
         letterButton.textContent = String.fromCharCode(i);
         letterButton.classList.add('letter-btn');
 
-        // New: Add event listener to play the click sound
+        // Add event listener to play the click sound
         letterButton.addEventListener('click', function(event) {
             clickSound.play();
             handleGuess(event);
@@ -202,11 +197,6 @@ function startGame() {
     // Display the corresponding vocabulary image
     vocabularyImageElement.src = chosenItem.image;
     vocabularyImageElement.style.display = 'block';
-
-    // New: Start playing the background music if not already playing
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(error => console.error("Error playing background music:", error));
-    }
 }
 
 // Handle guessing
@@ -227,7 +217,6 @@ function handleGuess(event) {
             messageElement.textContent = '✅✅✅ Correct! ✅✅✅';
             messageElement.classList.remove('incorrect');
 
-            console.log("Playing correct sound");
             correctSound.play().catch(error => console.error("Error playing correct sound:", error)); // Play correct sound
             endGame();
         }
@@ -241,7 +230,6 @@ function handleGuess(event) {
             messageElement.classList.add('incorrect');
             
             // Play the wrong sound only once when the game ends
-            console.log("Playing wrong sound at game over");
             wrongSound.play().catch(error => console.error("Error playing wrong sound:", error));
             
             endGame();
@@ -299,10 +287,6 @@ function resetGame() {
     document.getElementById('game-container').style.display = 'none';
     document.getElementById('bottom-container').style.display = 'none';
     document.getElementById('letters-container').style.display = 'none';
-
-    // Stop the background music when the game is reset
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0; // Reset to the beginning of the track
 }
 
 // Start the game initially
